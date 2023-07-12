@@ -23,19 +23,19 @@
 					</div>
 					<div class="col-sm-6">
 						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
-						{% comment %} <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						 {% endcomment %}
+						<a href="#deleteEmployeeModal-{{forloop.counter}}" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
 					</div>
                 </div>
             </div>
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-						{% comment %} <th>
+						 <th>
 							<span class="custom-checkbox">
 								<input type="checkbox" id="selectAll">
 								<label for="selectAll"></label>
 							</span>
-						</th> {% endcomment %}
+						</th> 
                         <th>Sno.</th>
                         <th>Name</th>
                         <th>Email</th>
@@ -44,18 +44,19 @@
 						<th>Gender</th>
                         <th>Images</th>
                         <th>Resume</th>
+						<th>Dropdowns</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                 {% for i in emp %}
                     <tr>
-						{% comment %} <td>
+						 <td>
 							<span class="custom-checkbox">
 								<input type="checkbox" id="checkbox1" name="options[]" value="1">
 								<label for="checkbox1"></label>
 							</span>
-						</td> {% endcomment %}
+						</td> 
                         <td>{{forloop.counter}}</td>
                         <td>{{i.Name}}</td>
                         <td>{{i.Email}}</td>
@@ -64,6 +65,7 @@
 						<td>{{i.Gender}}</td>
                         <td><img src="{{i.Images.url}}" alt="" height=80 width=80></td>
                         <td><a href="{{i.Resume.url}}">Download File</a></td>
+						<td>{{i.Dropdowns}}</td>
                         <td>
                             <a href="#editEmployeeModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                             <a href="#deleteEmployeeModal-{{forloop.counter}}" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
@@ -125,7 +127,8 @@
                         <div class="form-group">
 							<label>Resume</label>
 							<input name="resume" type="File" id="resume-input" class="form-control" required>
-						</div>					
+						</div>
+											
 					</div>
 					<div class="modal-footer">
 						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -172,7 +175,7 @@
 						</div>
 						
                         <div class="form-group">
-							<label>Images:</label>
+							<label>Images</label>
 							{% if i.Images %}
 								<small>Currently: <a href="{{ i.Images.url }}">{{ i.Images.url }}</a></small>
 							{% else %}
@@ -216,7 +219,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">					
-						<p>Are you sure you want to delete these Records?</p>
+						<p><h4>Are you sure you want to delete these Records?</h4></p>
 						<p class="text-warning"><small>{{i.Name}} information are delete ?</small></p>
 					</div>
 					<div class="modal-footer">
@@ -228,6 +231,28 @@
 		</div>
 	</div>
     {% endfor %}
+	<!-- Delete_Record Modal HTML -->
+    {% comment %} {% for i in data %} {% endcomment %}
+	<div id="deleteEmployeeModal-{{forloop.counter}}" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form action="{% url 'home' %}" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div class="modal-body">					
+						<p><h4>Are you sure you want to delete these Records?</h4></p>
+						<p class="text-warning"><small>Employees Name: {{data.id}}</small></p>
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<a href="/delete_records/{{data.id}}" type="submit" class="btn btn-danger">Delete</a>
+                	</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% comment %} {% endfor %} {% endcomment %}
+
 </body>
 <script src="{% static 'js/index.js' %}"></script>
 </html>

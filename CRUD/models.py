@@ -10,6 +10,7 @@ class Employees(models.Model):
     Gender = models.CharField(max_length=100)
     Images = models.FileField(upload_to="image/%Y/%m/", validators=[FileExtensionValidator(['pdf', 'doc', 'svg', 'jpg', 'png','jpeg'])])
     Resume = models.FileField(upload_to="resume/%Y/%m/", validators=[FileExtensionValidator(['pdf', 'doc', 'svg', 'jpg', 'png','jpeg'])])
+    # Dropdown = models.CharField(max_length=200)
     
 
     def image_tag(self):

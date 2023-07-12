@@ -73,3 +73,20 @@ def delete(request,id):
     emp.delete()
     return redirect('home')
 
+
+def delete_records(request,id):
+
+        data = Employees.objects.all(id=id)
+        data.delete()
+        return redirect('home') 
+    
+
+# def delete_records(request):
+#     if request.method == 'POST':
+#         for i in Employees.objects.filter(status=1):
+#             x = request.POST.get(str(i.id))
+#             print(x)
+#             if str(x) == 'on':
+#                 emp = Employees.objects.get(id=i.id)
+#                 emp.delete()
+#     return redirect('home')
