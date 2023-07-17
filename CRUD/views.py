@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Employees
+from .models import *
 from django.http import HttpResponse
 # Create your views here.
 
@@ -18,22 +18,29 @@ def add(request):
             email = request.POST.get('email')
             address = request.POST.get('address')
             phone = request.POST.get('phone')
+            city_id = request.POST.get('city')
             gender = request.POST.get('gender')
             images = request.FILES['images']
             resume = request.FILES['resume']
-            
+
+            if city_id:
+                city = Employees.objects.get(id=city_id)
+            else:
+                None
 
             emp = Employees(
             Name = name,
             Email = email,
             Address = address,
             Phone = phone,
+            City = city,
             Gender = gender,
             Images = images,
             Resume = resume,
             )
             emp.save()
             return redirect('home')
+        
         
 
 def edit(request):
@@ -52,6 +59,7 @@ def update(request, id):
         emp.Email = request.POST.get('email')
         emp.Address = request.POST.get('address')
         emp.Phone = request.POST.get('phone')
+        emp.City = request.POST.get('city')
         emp.Gender = request.POST.get('gender')
 
         images = request.FILES.get('images')
@@ -64,8 +72,10 @@ def update(request, id):
             
         emp.save()
         return redirect('home')
+
+    cities = CITY
     
-    return render(request, 'index.html')
+    return render(request, 'index.html', {'cities': cities})
 
 
 def delete(request,id):
